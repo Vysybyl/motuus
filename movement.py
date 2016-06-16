@@ -1,10 +1,7 @@
 
-
-
 class Movement(object):
-    def __init__(self):
 
-    def __init__(self, input_string):
+    def __init__(self, input_string = None):
         self.raw_input = input_string
         self.accelerometer = None
         self.gyroscope = None
@@ -20,5 +17,5 @@ class Movement(object):
 
         self.speed = None
 
-        
+
 
