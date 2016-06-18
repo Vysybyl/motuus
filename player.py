@@ -1,11 +1,7 @@
-# Constants
-
-UP = 1
-DOWN = 0
-
+from movement.constants import *
 
 def play(mov):
-    if mov.top == UP:
+    if mov.top == 'UP':
         play_sound()
 
 
