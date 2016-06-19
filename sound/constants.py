@@ -1,0 +1,1 @@
+SOUND_FOLDER = '../data/sound/'

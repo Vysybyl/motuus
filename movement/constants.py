@@ -1,7 +1,7 @@
 import numpy as np
 
 ACCELEROMETER = 'acc'  # Same as Acceleration including gravity
-GYROSCOPE = 'gyr'
+GYROSCOPE = 'gyr'  # Same as Rotation Rate
 MAGNETOMETER = 'mag'
 GRAVITY = 'gra'
 LINEAR_ACCELERATION = 'lac'  # Same as Acceleration
@@ -15,8 +15,8 @@ EAST = 'e'
 WEST = 'w'
 
 OPPOSITE_DIRECTIONS = [[NORTH, SOUTH],
-                   [UP, DOWN],
-                   [EAST, WEST]]
+                       [UP, DOWN],
+                       [EAST, WEST]]
 
 GRAVITY_FIELD = 9.8
 MAGNETIC_FIELD = 1.0

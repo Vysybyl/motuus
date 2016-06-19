@@ -1,9 +1,15 @@
 from constants import *
-from utils import sin_deg, cos_deg, convert_vector_to_direction, opposite
+import json
+from utils import *
 
 
 class Movement(object):
     def __init__(self, input_dict=None):
+        if type(input_dict) is not dict:
+            try:
+                input_dict = json.loads(input_dict)
+            except:
+                input_dict = {}
         self.raw_data = input_dict
         self.accelerometer = self.raw_data.get(ACCELEROMETER)
         self.gyroscope = self.raw_data.get(GYROSCOPE)
@@ -21,12 +27,11 @@ class Movement(object):
         self.front = None
         self.back = None
 
-        if self.orientation is not None:
+        if not_none_nor_empty(self.orientation):
             d = self.orientation
             self.magnetic_field = np.array(
                 [- cos_deg(d[1]) * sin_deg(d[0]), cos_deg(d[1]) * cos_deg(d[0]), sin_deg(d[1])])
-
-        self.build_pointers()
+            self.build_pointers()
 
         self.speed = None
 

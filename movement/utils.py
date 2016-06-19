@@ -24,3 +24,14 @@ def convert_vector_to_direction(vec):
     r = map(f, DIRECTION_VECTORS.iteritems())
     r = np.array(r)
     return r[np.argmax(r[:, 1])][0]
+
+
+def not_none_nor_empty(vec):
+    if vec is None:
+        return False
+    if len(vec) == 0:
+        return False
+    for i in vec:
+        if i is None:
+            return False
+    return True
