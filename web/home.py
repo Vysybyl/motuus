@@ -1,7 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 from flask_socketio import SocketIO, emit
 from motuus.movement.movement import Movement
-from motuus import player
+from motuus.player import Player
 
 # to run on gunicorn: gunicorn --worker-class eventlet -w 1 motuus.web.home:app -b 0.0.0.0:8000
 # need to install gunicorn and eventlet
@@ -20,7 +20,9 @@ def index():
 def test_message(message):
     # print message['data']
     m = Movement(message['data'])
-    player.play(m)
+    if session.get('PLAYER') is None:
+        session['PLAYER'] = Player()
+    session['PLAYER'].play(m)
     emit('my response', {'data': message['data']})
 
 

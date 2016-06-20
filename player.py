@@ -1,20 +1,26 @@
 from movement.constants import *
-from sound.constants import *
-from pygame import mixer
-import os
-
-last = ''
+from base_player import BasePlayer
 
 
-def play(mov):
-    if mov.top and mov.top == UP:
-        print 'UP'
-        filename = 'Bass-Drum-1.wav'
-        path = os.path.join(SOUND_FOLDER, filename)
-        mixer.init()
-        sound = mixer.Sound(path)
-        assert sound.get_length() > 0
-        sound.play()
+class Player(BasePlayer):
 
+    def __init__(self):
+        # Calling super class init:
+        super(Player, self).__init__()
+        # Initialize here variables that might be used at every new event.
+        self.count = 0
+
+    def play(self, mov):
+        # Calling super class play:
+        super(Player, self).play(mov)
+
+        self.count += 1
+        print str(self.count)
+        if mov.top and mov.top == UP:
+            print 'UP'
+            self.play_sound('Bass-Drum-1.wav')
+        if mov.top and mov.top == DOWN:
+            print 'DOWN'
+            self.play_sound('Cowbell-2.wav')
 
 
