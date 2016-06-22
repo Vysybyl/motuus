@@ -1,5 +1,8 @@
 import numpy as np
 
+
+TIMESTAMP = 'tim'
+
 ACCELEROMETER = 'acc'  # Same as Acceleration including gravity
 GYROSCOPE = 'gyr'  # Same as Rotation Rate
 MAGNETOMETER = 'mag'

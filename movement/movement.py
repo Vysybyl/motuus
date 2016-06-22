@@ -1,4 +1,5 @@
 from constants import *
+import numpy as np
 import json
 from utils import *
 
@@ -32,6 +33,12 @@ class Movement(object):
             self.magnetic_field = np.array(
                 [- cos_deg(d[1]) * sin_deg(d[0]), cos_deg(d[1]) * cos_deg(d[0]), sin_deg(d[1])])
             self.build_pointers()
+
+        self.acceleration = 0
+
+        if not_none_nor_empty(self.accelerometer):
+            x = np.array(self.accelerometer)
+            self.acceleration = x.dot(x)
 
         self.speed = None
 
