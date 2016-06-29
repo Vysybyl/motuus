@@ -11,7 +11,7 @@ class Player(BasePlayer):
         self.count = 0
 
     def play(self, mov):
-        print mov.time
+        # print mov.time
         # Calling super class play:
         super(Player, self).play(mov)
         #print 'Acceleration norm: ' + str(mov.acceleration)
@@ -22,6 +22,7 @@ class Player(BasePlayer):
         if self.count != self.steps:
             print 'Steps: ' + str(self.steps)
             self.count = self.steps
+            # self.play_sound('gunshot.wav')
         # self.count += 1
         # print str(self.count)
         #if mov.top and mov.top == UP:
