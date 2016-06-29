@@ -17,7 +17,7 @@ var ORIENTATION = 'ori';  // Same as DeviceOrientation
 
 var DATA = {};
 
-DATA[TIMESTAMP]=0
+DATA[TIMESTAMP]=[]
 DATA[ACCELEROMETER]=[]
 DATA[GYROSCOPE]=[]
 DATA[MAGNETOMETER]=[]
@@ -38,6 +38,8 @@ if(window.DeviceMotionEvent){
 		$("#rotationRateValues").text(err);
 	}
 	function motion(event){
+	var t = Date.now();
+	$("#time").text(t);
 		var aIg = "accelerationIncludingGravity: <br>"
 		+ event.accelerationIncludingGravity.x + ", <br>"
 		+ event.accelerationIncludingGravity.y + ", <br>"
@@ -127,7 +129,7 @@ if(window.DeviceMotionEvent){
             });
             stream = function(){
               if(STREAMING){
-                 DATA[TIMESTAMP] = Date.now;
+                 DATA[TIMESTAMP] = Date.now();
                  socket.emit('my event', {data: DATA});
                  }
             };
@@ -136,6 +138,12 @@ if(window.DeviceMotionEvent){
 </head>
 <body>
 <h2>INTRODUCING SENSORS: </h2>
+<div>
+    <h3>Time</h3>
+    <div id="time">
+
+    </div>
+</div>
 <div>
     <h3>accelerationIncludingGravity</h3>
     <div id="accelerationIncludingGravityValues">

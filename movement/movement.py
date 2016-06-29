@@ -12,6 +12,7 @@ class Movement(object):
             except:
                 input_dict = {}
         self.raw_data = input_dict
+        self.time = self.raw_data.get(TIMESTAMP)
         self.accelerometer = self.raw_data.get(ACCELEROMETER)
         self.gyroscope = self.raw_data.get(GYROSCOPE)
         self.gravity = self.raw_data.get(GRAVITY)
@@ -31,7 +32,8 @@ class Movement(object):
         if not_none_nor_empty(self.orientation):
             d = self.orientation
             self.magnetic_field = np.array(
-                [- cos_deg(d[1]) * sin_deg(d[0]), cos_deg(d[1]) * cos_deg(d[0]), sin_deg(d[1])])
+                [- cos_deg(d[1]) * sin_deg(d[0]), cos_deg(d[1]) * cos_deg(d[0]), sin_deg(d[1])],
+                dtype=np.double)
             self.build_pointers()
 
         self.acceleration = 0

@@ -1,6 +1,7 @@
 from constants import *
 from random import choice
 import numpy as np
+import time
 
 FAKE_READINGS = dict()
 
@@ -27,6 +28,7 @@ FAKE_READINGS[GRAVITY] = [np.array([0.6629, 0.3338, 0.0031]),
 
 def build_random_input():
     inp = dict()
+    inp[TIMESTAMP] = int(round(time.time() * 1000))
     inp[ACCELEROMETER] = choice(FAKE_READINGS[ACCELEROMETER])
     inp[GYROSCOPE] = choice(FAKE_READINGS[GYROSCOPE])
     inp[ORIENTATION] = choice(FAKE_READINGS[ORIENTATION])
