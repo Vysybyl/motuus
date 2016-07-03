@@ -6,7 +6,7 @@ class Player(BasePlayer):
 
     def __init__(self, ):
         # Calling super class init:
-        super(Player, self).__init__(count_steps=True)
+        super(Player, self).__init__(graph3D=True)
         # Initialize here variables that might be used at every new event.
         self.count = 0
 

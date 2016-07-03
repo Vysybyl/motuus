@@ -1,7 +1,12 @@
-from constants import *
-from random import choice
+# External modules import
 import numpy as np
 import time
+
+# Project modules import
+from constants import *
+from random import choice
+
+"""Stores some (static) random data and a pseudo-random input generator, to allow basic tests"""
 
 FAKE_READINGS = dict()
 
@@ -27,6 +32,11 @@ FAKE_READINGS[GRAVITY] = [np.array([0.6629, 0.3338, 0.0031]),
 
 
 def build_random_input():
+    """Builds a random input, to be used to create a new movement.Movement object.
+
+    :return: a dict object initialized with pseudo-random data.
+    Keys include TIMESTAMP, ACCELEROMETER, GYROSCOPE, ORIENTATION and GRAVITY
+    """
     inp = dict()
     inp[TIMESTAMP] = int(round(time.time() * 1000))
     inp[ACCELEROMETER] = choice(FAKE_READINGS[ACCELEROMETER])

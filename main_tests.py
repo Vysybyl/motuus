@@ -15,12 +15,20 @@ class MyTestCase(unittest.TestCase):
         p = Player()
         mov = Movement(build_random_input())
         p.play(mov)
-        sleep(1)
+        sleep(5)
         mov = Movement(build_random_input())
         p.play(mov)
-        sleep(1)
+        sleep(5)
         mov = Movement(build_random_input())
         p.play(mov)
+        sleep(5)
+
+    def test_player_continuous(self):
+        p = Player()
+        while True:
+            mov = Movement(build_random_input())
+            p.play(mov)
+            sleep(0.5)
 
 
 if __name__ == '__main__':
