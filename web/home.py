@@ -3,8 +3,9 @@ from flask_socketio import SocketIO, emit
 from motuus.movement.movement import Movement
 from motuus.player import Player
 
-# to run on gunicorn: gunicorn --worker-class eventlet -w 1 motuus.web.home:app -b 0.0.0.0:8000
+# to run on gunicorn: gunicorn --worker-class eventlet -w 1 motuus.web.home:app -b 0.0.0.0:5000
 # need to install gunicorn and eventlet
+# otherwise use flask (python home.py)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -37,4 +38,4 @@ def test_disconnect():
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app, debug=False, host="0.0.0.0")

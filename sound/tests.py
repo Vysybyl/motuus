@@ -40,5 +40,16 @@ class MyTestCase(unittest.TestCase):
             s.play(overlap=True)
             sleep(0.2)
 
+
+    def test_play_sound_object_change_volume(self):
+        filename = 'ding_1.wav'
+        s = Sound(filename)
+        while True:
+            for i in range(4):
+                vol = 1.0 / (i + 1.0)
+                s.play(overlap=True)
+                s.set_volume(vol)
+                sleep(0.4)
+
 if __name__ == '__main__':
     unittest.main()

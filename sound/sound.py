@@ -49,4 +49,16 @@ class Sound(object):
                 self.__end = time() + self.__l
                 self.__s.play(loops, maxtime, fade_ms)
 
+    def get_volume(self):
+        """Gets the Sound volume
 
+        :return: a value from 0.0 to 1.0 representing the volume for this Sound.
+        """
+        return self.__s.get_volume()
+
+    def set_volume(self, val):
+        """Sets the Sound volume
+
+        :param val: a value from 0.0 to 1.0 representing the volume for this Sound.
+        """
+        return self.__s.set_volume(val)

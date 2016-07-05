@@ -7,7 +7,7 @@ from random import random as rnd
 from motuus.visualize.graph2D import Graph2D
 from motuus.visualize.graph3D import Graph3D
 from motuus.movement.constants import *
-from motuus.movement.utils import build_quat, cos_deg, sin_deg, build_q
+from motuus.movement.utils import build_q, cos_deg, sin_deg, build_q
 
 class MyTestCase(unittest.TestCase):
     def test_graph2D(self):
@@ -54,13 +54,13 @@ class MyTestCase(unittest.TestCase):
             slp = 0.02
             rng = range(-tt, tt, 2)
             for i in rng:
-                g.rotate(build_quat(i, -1, 0, 0))
+                g.rotate(build_q(i, -1, 0, 0))
                 sleep(slp)
             for i in rng:
-                g.rotate(build_quat(i, 0, 1, 0))
+                g.rotate(build_q(i, 0, 1, 0))
                 sleep(slp)
             for i in rng:
-                g.rotate(build_quat(i, 0, 0, 1))
+                g.rotate(build_q(i, 0, 0, 1))
                 sleep(slp)
             # for i in rng:
             #     g.rotate(Quaternion(i, -1, 0, 0))
