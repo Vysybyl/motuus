@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Motuus Connection Page</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+
+        var TIMESTAMP = 'tim';
+
+var ACCELEROMETER = 'acc';  // Same as Acceleration including gravity
+var GYROSCOPE = 'gyr'; // Same as Rotation Rate
+var MAGNETOMETER = 'mag';
+var GRAVITY = 'gra';
+var LINEAR_ACCELERATION = 'lac';  // Same as Acceleration
+var ORIENTATION = 'ori';  // Same as DeviceOrientation
+
+var DATA = {};
+
+DATA[TIMESTAMP]=[]
+DATA[ACCELEROMETER]=[]
+DATA[GYROSCOPE]=[]
+DATA[MAGNETOMETER]=[]
+DATA[GRAVITY]=[]
+DATA[LINEAR_ACCELERATION]=[]
+DATA[ORIENTATION]=[]
+
+$(document).ready(function(){
+    if(window.DeviceMotionEvent){
+      window.addEventListener("devicemotion", motion, false);
+  }else{
+      var err = "DeviceMotionEvent is not supported";
+      console.log(err);
+      $("#accelerationIncludingGravityValues").text(err);
+
+      $("#accelerationValues").text(err);
+
+      $("#rotationRateValues").text(err);
+  }
+  function motion(event){
+   var t = Date.now();
+   $("#time").text(t);
+   var aIg = buildList( event.accelerationIncludingGravity.x,
+                        event.accelerationIncludingGravity.y,
+                        event.accelerationIncludingGravity.z);
+   console.log(aIg);
+   $("#accelerationIncludingGravityValues").html(aIg);
+   DATA[ACCELEROMETER]=[event.accelerationIncludingGravity.x,
+   event.accelerationIncludingGravity.y,
+   event.accelerationIncludingGravity.z]
+
+
+   var a = buildList( event.acceleration.x,
+                        event.acceleration.y,
+                        event.acceleration.z);
+   console.log(a);
+   $("#accelerationValues").html(a);
+   DATA[LINEAR_ACCELERATION]=[event.acceleration.x,
+   event.acceleration.y,
+   event.acceleration.z]
+
+   var rR =  buildList( event.rotationRate.alpha,
+                        event.rotationRate.beta,
+                        event.rotationRate.gamma);
+   console.log(rR);
+   $("#rotationRateValues").html(rR);
+   DATA[GYROSCOPE]=[event.rotationRate.alpha,
+   event.rotationRate.beta,
+   event.rotationRate.gamma]
+
+}
+
+if(window.DeviceOrientationEvent){
+  window.addEventListener("deviceorientation", orientation, false);
+}else{
+  var err2 = "DeviceOrientationEvent is not supported";
+  console.log(err2);
+  $("#deviceorientationValues").text(err2);
+}
+function orientation(event){
+  var m =  buildList( event.alpha,
+                        event.beta,
+                        event.gamma);
+  console.log(m);
+  $("#deviceorientationValues").html(m);
+  DATA[ORIENTATION]=[event.alpha,
+  event.beta,
+  event.gamma]
+}
+function buildList(x, y, z) {
+    return "<ul><li>" +  x + "</li><li>" + y + "</li><li>" + z + "</li></ul>";
+}
+});
+
+
+</script>
+<script type="text/javascript" charset="utf-8">
+    var STREAMING = false;
+
+    $(document).ready(function(){
+            namespace = '/test'; // change to an empty string to use the global namespace
+            // the socket.io documentation recommends sending an explicit package upon connection
+            // this is specially important when using the global namespace
+            var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+            // event handler for server sent data
+            // the data is displayed in the "Received" section of the page
+            socket.on('my response', function(msg) {
+                $('#log').text('Received #' + msg.count + ': ' + msg.data);
+                console.log("Received as my response "+msg.data);
+            });
+            // event handler for new connections
+            socket.on('connect', function() {
+                socket.emit('my event', {data: 'I\'m connected!'});
+            });
+            $('#btnTest').click(function() {
+                console.log('Button TEST CONNECTION clicked');
+                socket.emit('my event', {data: 'TEST CONNECTION button was clicked'});
+            });
+            $('form#btnStream').submit(function( event ) {
+                STREAMING = !STREAMING;
+                if(STREAMING){
+                    $('#innerBtnStream').removeClass('btn-success').addClass('btn-info')
+                }
+                else{
+                    $('#innerBtnStream').removeClass('btn-info').addClass('btn-success')
+                }
+                var f = parseFloat($( "[name='frequency']" ).val());
+                if (isNaN(f) || f<=0 || f > 20){
+                    f = 0.5;
+                }
+                var freq = 1000/f ;
+                setInterval(stream, freq);
+                event.preventDefault();
+            });
+            stream = function(){
+              if(STREAMING){
+               DATA[TIMESTAMP] = Date.now();
+               socket.emit('my event', {data: DATA});
+           }
+       };
+   });
+</script>
+<style>
+body {font-size:large;}
+h1, h3 {font-size: xx-large;}
+</style>
+</head>
+
+<body>
+    <div class="container">
+    <div class="row"><h1>Welcome to Motuus!</h1></div>
+        <div class="row"><h3>Send:</h3></div>
+        <div class="row">
+            <button id="btnTest" class="btn btn-default" style="width:200px;height:100px">TEST CONNECTION</button>
+        </div>
+        <div class="row">
+        <div class="cl-md-12">
+            <form id="btnStream">
+                <input type="submit" style="width:200px;height:100px" id="innerBtnStream" value="STREAM" class="btn btn-success">
+                <input type="number" name="frequency" value=1>
+            </form>
+            </div>
+        </div>
+        <div class="row"><h3>Receive:</h3></div>
+        <div id="log" class="row"></div>
+        <div class="row"><h2>SENSORS:</h2></div>
+        <div class="row"><h4>Time</h4></div>
+        <div class="row" id="time">
+
+        </div>
+        <div class="row"><h4>accelerationIncludingGravity</h4></div>
+        <div class="row" id="accelerationIncludingGravityValues">
+
+        </div>
+        <div class="row"><h4>acceleration</h4></div>
+        <div class="row" id="accelerationValues">
+
+        </div>
+        <div class="row"><h4>rotationRate</h4></div>
+        <div class="row" id="rotationRateValues">
+
+        </div>
+
+        <div class="row"><h4>deviceorientation</h4></div>
+        <div class="row" id="deviceorientationValues">
+
+        </div>
+    </div>
+
+</body>
+</html>

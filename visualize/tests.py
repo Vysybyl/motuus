@@ -9,6 +9,7 @@ from motuus.visualize.graph3D import Graph3D
 from motuus.movement.constants import *
 from motuus.movement.utils import build_q, cos_deg, sin_deg, build_q
 
+
 class MyTestCase(unittest.TestCase):
     def test_graph2D(self):
         g = Graph2D(10)
@@ -62,20 +63,6 @@ class MyTestCase(unittest.TestCase):
             for i in rng:
                 g.rotate(build_q(i, 0, 0, 1))
                 sleep(slp)
-            # for i in rng:
-            #     g.rotate(Quaternion(i, -1, 0, 0))
-            #     sleep(slp)
-            # for i in rng:
-            #     g.rotate(Quaternion(i, 0, 1, 0))
-            #     sleep(slp)
-            # for i in rng:
-            #     g.rotate(Quaternion(i, 0, 0, 1))
-            #     sleep(slp)
-
-
-                    # for d in DIRECTION_VECTORS.values():
-        #     g.rotate(0.0, d[0], d[1], d[2])
-        #     sleep(2)
 
     def quat_ori_test(self):
         g = Graph3D()
@@ -126,7 +113,6 @@ class MyTestCase(unittest.TestCase):
                     q0 = Quat(cos_deg(j/2.0), v[0], v[1], v[2]) * q1
                     g.rotate(q0)
                     sleep(0.10)
-
 
     def quat_tests(self):
         x = Quat(0, 1, 0, 0)

@@ -21,9 +21,15 @@ MINIMUM_TIME_BETWEEN_STEPS = 0.3  # in seconds
 
 class BasePlayer(object):
     def __init__(self, count_steps=False, calibrate=False, graph2D=False, graph3D=False):
-        # Initialization goes here
-        mixer.init(frequency=44100, size=-16, channels=2, buffer=4096)
+        """Base classes for all Players
 
+        Every player must subclass BasePlayer
+        :param count_steps: if True, step counter is enabled
+        :param calibrate: if True, the initial data will be used to calibrate the sensors.
+        A beep plays once the calibration is over
+        :param graph2D: if True, a window showing the acceleration module and other time series will be displayed
+        :param graph3D: if True, a window showing a 3D model of the mobile device will be displayed.
+        """
         self.__g2D = None
 
         if graph2D:
@@ -38,8 +44,9 @@ class BasePlayer(object):
             self.__g3D = Graph3D()
 
         self.previous_movements = []
-
+        """A list including all previous Movement object received by the server. The last element is the current one"""
         self.steps = 0
+        """If cont_steps is enabled, this variable stores the number of steps counted by the program"""
         self.__count_steps = count_steps
         self.__acceleration_trace = None
         self.__last_step_time = 0
@@ -68,10 +75,6 @@ class BasePlayer(object):
         if self.__g3D and not_none_nor_empty(mov.orientation):
             q = build_q_v(mov.orientation)
             self.__g3D.rotate(q)
-
-    def play_sound(self, wav_filename):
-        pat = os.path.join(SOUND_FOLDER, wav_filename)
-        mixer.Sound(pat).play()
 
     def __estimate_gravity(self):
         acc = []

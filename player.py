@@ -13,7 +13,7 @@ class Player(BasePlayer):
     Some useful variables are already present in the BasePlayer and can be called directly.
     """
     def __init__(self, ):
-        # Calling super class init:
+        # Calling super class init (ignore the following line):
         super(Player, self).__init__(graph3D=True)
         # Initialize here variables that might be used at every new event.
         self.count = 0
@@ -27,21 +27,13 @@ class Player(BasePlayer):
         process every input.
         Do not overload it!
         """
-        # Calling super class play:
+        # Calling super class play (ignore the following line):
         super(Player, self).play(mov)
 
         if self.count != self.steps:
             print 'Steps: ' + str(self.steps)
             self.count = self.steps
-            # self.play_sound('gunshot.wav')
-        # self.count += 1
-        # print str(self.count)
-        #if mov.top and mov.top == UP:
-        #     print 'UP'
-        #    self.play_sound('Bass-Drum-1.wav')
-        #if mov.top and mov.top == DOWN:
-        #     print 'DOWN'
-        #    self.play_sound('Cowbell-2.wav')
+
 
 
 
