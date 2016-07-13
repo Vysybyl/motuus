@@ -73,8 +73,8 @@ def not_none_nor_empty(vec):
     return True
 
 
-def build_q(alpha, beta, gamma):
-    """Builds a panda3d.core.Quat quaternion based on the device orientation described by the parameters
+def build_attitude_q(alpha, beta, gamma):
+    """Builds a panda3d.core.Quat attitude quaternion based on the device orientation described by the parameters
 
     Parameters are based on the javascript library parameters with the same names. Parameters measure angle in degrees
     :param alpha: Rotation of the device around the z axis (pointing outside of the screen).
@@ -88,13 +88,40 @@ def build_q(alpha, beta, gamma):
     c = Quat(cos_deg(gamma/2.0), 0, sin_deg(gamma/2.0), 0) * b
     return c
 
-def build_q_v(vec):
-    """Builds a panda3d.core.Quat quaternion based on the device orientation described by the argument vec
+def build_attitude_q_v(vec):
+    """Builds a panda3d.core.Quat attitude quaternion based on the device orientation described by the argument vec
 
     :param vec: a 1 x 3 numpy array or a list (Any indexed object with length > 2 will work) containing orientation
      angles in degrees.
     :return: a panda3d.core.Quat quaternion. It can be used directly to orientate 3D objects or define transformation
     with the setQuat method
     """
+    return build_attitude_q(vec[0], vec[1], vec[2])
+
+
+def build_q_v(vec):
+    """Builds a panda3d.core.Quat quaternion representation of a unit vector (versor), to be rotated using quaternion
+    multiplication
+
+    :param vec: a unit vector as a 1 x 3 numpy array or a list (Any indexed object with length > 2 will work)
+    :return: a panda3d.core.Quat quaternion.
+    """
     return build_q(vec[0], vec[1], vec[2])
 
+
+def build_q(x, y, z):
+    """Builds a panda3d.core.Quat quaternion representation of a unit vector (versor), to be rotated using quaternion
+    multiplication
+
+    :param x: x-component
+    :param y: y-component
+    :param z: z-component
+    :return: a panda3d.core.Quat quaternion.
+    """
+    return Quat(0, x, y, z)
+
+
+def build_v(q):
+    x = np.array([q.getI(), q.getJ(), q.getK()])
+    x = x / np.sqrt(x.dot(x))
+    return x

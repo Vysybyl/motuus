@@ -35,8 +35,13 @@ class Movement(object):
         """list storing orientation data (from javascript 'deviceorientation')"""
         self.linear_acceleration = self.raw_data.get(LINEAR_ACCELERATION)
         """list storing orientation data (from javascript 'acceleration')"""
-        self.pointer_vector = None
-        """A numpy.array unit vector storing the device main axis (bottom to top) orientation"""
+
+        self.right_pointer_vector = None
+        """A numpy.array unit vector storing the device x axis (left to right) orientation"""
+        self.top_pointer_vector = None
+        """A numpy.array unit vector storing the device y axis (bottom to top) orientation"""
+        self.front_pointer_vector = None
+        """A numpy.array unit vector storing the device z axis (back to front) orientation"""
 
         self.top = None
         self.bottom = None
@@ -48,11 +53,12 @@ class Movement(object):
         if not_none_nor_empty(self.orientation):
             # This creates a pointer vector and an orientation (or attitude) quaternion storing respectively the device
             # direction along the y axis (bottom to top) and the device orientation
-            d = self.orientation
-            self.pointer_vector = np.array(
-                [- cos_deg(d[1]) * sin_deg(d[0]), cos_deg(d[1]) * cos_deg(d[0]), sin_deg(d[1])],
-                dtype=np.double)
-            self.attitude_quaternion = build_q_v(self.orientation)
+            q = build_q_v(self.orientation)
+            self.attitude_quaternion = q
+            q_con = q.conjugate()
+            self.top_pointer_vector = build_v(q_con * build_q_v(Y_3D_VECTOR) * q)
+            self.right_pointer_vector = build_v(q_con * build_q_v(X_3D_VECTOR) * q)
+            self.front_pointer_vector = np.cross(self.right_pointer_vector, self.top_pointer_vector)
             self.__build_pointers()
 
         self.acceleration = None
@@ -62,7 +68,7 @@ class Movement(object):
             # Calculates and stores the module (Euclidean norm) of the device acceleration. Please note that this
             # includes gravity.
             x = np.array(self.accelerometer)
-            self.acceleration = x.dot(x)
+            self.acceleration = np.sqrt(x.dot(x))
 
         self.speed = None
         """If present, stores the module of the current speed"""
@@ -72,5 +78,9 @@ class Movement(object):
 
         Possible directions are listed in DIRECTIONS
         """
-        self.top = convert_vector_to_direction(self.pointer_vector)
+        self.top = convert_vector_to_direction(self.top_pointer_vector)
         self.bottom = opposite(self.top)
+        self.right = convert_vector_to_direction(self.right_pointer_vector)
+        self.left = opposite(self.right)
+        self.front = convert_vector_to_direction(self.front_pointer_vector)
+        self.back = opposite(self.front)
