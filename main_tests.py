@@ -1,8 +1,9 @@
 import unittest
-from player import Player
+from time import sleep
+
 from movement.dummy_data import build_random_input
 from movement.movement import Movement
-from time import sleep
+from play.players.player import Player
 
 
 class MyTestCase(unittest.TestCase):

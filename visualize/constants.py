@@ -11,6 +11,7 @@ COLORS['green'] = 'g'
 COLORS['red'] = 'r'
 COLORS['magenta'] = 'm'
 COLORS['yellow'] = 'y'
+COLORS['white'] = 'w'
 COLORS['black'] = 'k'
 
 

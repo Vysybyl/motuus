@@ -1,7 +1,11 @@
 from flask import Flask, render_template, session
 from flask_socketio import SocketIO, emit
+from  importlib import import_module
+
 from motuus.movement.movement import Movement
-from motuus.player import Player
+from motuus.config import *
+
+# from motuus.player import Player
 
 # to run on gunicorn: gunicorn --worker-class eventlet -w 1 motuus.web.home:app -b 0.0.0.0:5000
 # need to install gunicorn and eventlet
@@ -11,6 +15,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
+Player = getattr(import_module('motuus.play.players.' + PLAYER_SCRIPT), 'Player')
 
 @app.route('/')
 def index():

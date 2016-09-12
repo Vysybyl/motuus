@@ -1,5 +1,6 @@
 from motuus.movement.constants import *
-from base_player import BasePlayer
+
+from motuus.play.base_player import BasePlayer
 
 
 class Player(BasePlayer):
@@ -12,11 +13,12 @@ class Player(BasePlayer):
     If you need to store variables between inputs, you'll have to initialize them appropriately in the __init__ method.
     Some useful variables are already present in the BasePlayer and can be called directly.
     """
-    def __init__(self, ):
+
+    def __init__(self):
         # Calling super class init (ignore the following line):
-        super(Player, self).__init__(graph3D=True)
+        super(Player, self).__init__(count_steps=True, graph3D=True)
         # Initialize here variables that might be used at every new event.
-        self.count = 0
+
 
     def play(self, mov):
         """This method is called anytime a new Movement input comes in from the device.
@@ -30,10 +32,7 @@ class Player(BasePlayer):
         # Calling super class play (ignore the following line):
         super(Player, self).play(mov)
 
-        if self.count != self.steps:
-            print 'Steps: ' + str(self.steps)
-            self.count = self.steps
 
-
-
+        if mov.top == EAST:
+            print "Para leste"
 

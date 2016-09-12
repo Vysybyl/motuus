@@ -7,9 +7,10 @@ from random import random as rnd
 from motuus.visualize.graph2D import Graph2D
 from motuus.visualize.graph3D import Graph3D
 from motuus.movement.constants import *
-from motuus.movement.utils import build_q, cos_deg, sin_deg
+from motuus.movement.utils import build_q, cos_deg, sin_deg, build_attitude_q
 from motuus.movement.dummy_data import build_random_input
 from motuus.movement.movement import Movement as move
+from motuus.visualize.screen import Screen
 
 class MyTestCase(unittest.TestCase):
     def test_graph2D(self):
@@ -47,7 +48,7 @@ class MyTestCase(unittest.TestCase):
         while True:
             for v in vects + vects:
                 # print v
-                g.rotate(build_q(v[0],v[1],v[2]))
+                g.rotate(build_attitude_q(v[0],v[1],v[2]))
                 sleep(1.0)
 
         return
@@ -186,7 +187,17 @@ class MyTestCase(unittest.TestCase):
             print i - j
             assert abs(i - j) < 0.0001
         print "=="
-1
+
+
+    def test_display_colors(self):
+        scr = Screen()
+        scr.display('red')
+        sleep(5)
+        scr.display('white')
+        sleep(5)
+        scr.display('black')
+        sleep(5)
+
 
 if __name__ == '__main__':
     unittest.main()

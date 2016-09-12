@@ -1,9 +1,10 @@
 from motuus.movement.constants import *
-from motuus.movement.utils import not_none_nor_empty, build_q_v
+from motuus.movement.utils import not_none_nor_empty, build_attitude_q_v
 from motuus.sound.constants import *
 from pygame import mixer
 from motuus.visualize.graph2D import Graph2D
 from motuus.visualize.graph3D import Graph3D
+from motuus.visualize.screen import Screen
 
 import os
 
@@ -14,13 +15,13 @@ CALIBRATION_SAMPLE_SIZE = 50
 # Step counter settings
 ACC_TRACE_SAMPLE_SIZE = MAX_PREVIOUS_MOVEMENTS
 ACC_AVERAGE_SMOOTHING_FACTOR = 0.7  # Between 0 and 1
-REAL_ACC_THRESHOLD = GRAVITY_FIELD * 10.0 * 0.15  # 0.15 seems ok for walking
-STEP_COUNTER_SAMPLE_TIME_WINDOW = 1.0  # in seconds
-MINIMUM_TIME_BETWEEN_STEPS = 0.3  # in seconds
+REAL_ACC_THRESHOLD = GRAVITY_FIELD * 0.25  # 0.15 seems ok for walking
+STEP_COUNTER_SAMPLE_TIME_WINDOW = 2.0  # in seconds
+MINIMUM_TIME_BETWEEN_STEPS = 0.5  # in seconds
 
 
 class BasePlayer(object):
-    def __init__(self, count_steps=False, calibrate=False, graph2D=False, graph3D=False):
+    def __init__(self, count_steps=False, calibrate=False, graph2D=False, graph3D=False, display=False):
         """Base classes for all Players
 
         Every player must subclass BasePlayer
@@ -30,6 +31,10 @@ class BasePlayer(object):
         :param graph2D: if True, a window showing the acceleration module and other time series will be displayed
         :param graph3D: if True, a window showing a 3D model of the mobile device will be displayed.
         """
+        self.__screen = None
+        if display:
+            self.__screen = Screen()
+
         self.__g2D = None
 
         if graph2D:
@@ -69,12 +74,17 @@ class BasePlayer(object):
                 self.__calibrate = False
                 self.play_sound('66136__theta4__ding30603-spedup.wav')
 
-        if self.__count_steps and mov.acceleration != 0:
-            self.__count_steps(mov)
+        # print str(mov.raw_data)
+
+        if self.__count_steps and mov.acceleration is not None:
+            self.__count_step(mov)
 
         if self.__g3D and not_none_nor_empty(mov.orientation):
-            q = build_q_v(mov.orientation)
+            q = build_attitude_q_v(mov.orientation)
             self.__g3D.rotate(q)
+
+    def display_background(self, color_name):
+        self.__screen.display(color_name)
 
     def __estimate_gravity(self):
         acc = []
@@ -96,9 +106,12 @@ class BasePlayer(object):
             # The array will have a row structure of [time, acceleration, acc moving average, threshold]
             first_vec = np.array([movement.time, movement.acceleration, movement.acceleration, movement.acceleration],
                                  dtype=np.double)
+            # print "First vec " + str(first_vec)
             self.__acceleration_trace = np.vstack((first_vec, first_vec, first_vec))
-            # print "Acc trace " + str( self.__acceleration_trace)
+            # print "Acc trace " + str(self.__acceleration_trace)
         else:
+            # print "Time " + str(movement.time)
+            # print "Acc " + str(movement.acceleration)
             t = movement.time - 1000.0 * STEP_COUNTER_SAMPLE_TIME_WINDOW  # beginning of the time window, milliseconds
             # print "Time diff " + str(t)
             times = self.__acceleration_trace[:, 0]
@@ -110,10 +123,19 @@ class BasePlayer(object):
             if ln == 0:
                 print "ERROR: empty sample for step counter calculations. \
                 Try using a wider STEP_COUNTER_SAMPLE_TIME_WINDOW"
+                self.__acceleration_trace = np.vstack((
+                    self.__acceleration_trace,
+                    np.array([movement.time, movement.acceleration, movement.acceleration, movement.acceleration],
+                             dtype=np.double)
+                ))
             else:
                 avg = sample[-1, 2] * (
                     1.0 - ACC_AVERAGE_SMOOTHING_FACTOR) + movement.acceleration * ACC_AVERAGE_SMOOTHING_FACTOR
                 threshold = (np.max(sample[:, 1]) + np.min(sample[:, 1])) / 2
+
+                # print "Avg" + str(avg)
+                # print "Thrs" + str(threshold)
+                # print "Sample " + str(sample[-1])
 
                 if (
                                         sample[-1, 2] > sample[-1, 3] and
@@ -128,18 +150,19 @@ class BasePlayer(object):
                     self.__acceleration_trace,
                     np.array([movement.time, movement.acceleration, avg, threshold], dtype=np.double)
                 ))
-                # print "Acc trace " + str(self.__acceleration_trace)
-                if len(self.__acceleration_trace) > ACC_TRACE_SAMPLE_SIZE:
-                    self.__acceleration_trace = self.__acceleration_trace[-ACC_TRACE_SAMPLE_SIZE:]
 
-                if self.__g2D:
-                    lin_x = self.__acceleration_trace[:, 0] / 1000  # milliseconds
-                    lin_y = self.__acceleration_trace[:, 1] / 100
-                    lin_avg = self.__acceleration_trace[:, 2] / 100
-                    lin_thresh = self.__acceleration_trace[:, 3] / 100
-                    # print "lin x " + str(lin_x)
-                    # print "lin y " + str(lin_y)
-                    self.__g2D.update_line('acceleration', lin_x, lin_y)
-                    self.__g2D.update_line('acc_avg', lin_x, lin_avg)
-                    self.__g2D.update_line('acc_thresh', lin_x, lin_thresh)
-                    self.__g2D.plot()
+            # print "Acc trace " + str(self.__acceleration_trace)
+            if len(self.__acceleration_trace) > ACC_TRACE_SAMPLE_SIZE:
+                self.__acceleration_trace = self.__acceleration_trace[-ACC_TRACE_SAMPLE_SIZE:]
+
+            if self.__g2D:
+                lin_x = self.__acceleration_trace[:, 0] / 1000  # milliseconds
+                lin_y = self.__acceleration_trace[:, 1] / 100
+                lin_avg = self.__acceleration_trace[:, 2] / 100
+                lin_thresh = self.__acceleration_trace[:, 3] / 100
+                # print "lin x " + str(lin_x)
+                # print "lin y " + str(lin_y)
+                self.__g2D.update_line('acceleration', lin_x, lin_y)
+                self.__g2D.update_line('acc_avg', lin_x, lin_avg)
+                self.__g2D.update_line('acc_thresh', lin_x, lin_thresh)
+                self.__g2D.plot()

@@ -53,7 +53,7 @@ class Movement(object):
         if not_none_nor_empty(self.orientation):
             # This creates a pointer vector and an orientation (or attitude) quaternion storing respectively the device
             # direction along the y axis (bottom to top) and the device orientation
-            q = build_q_v(self.orientation)
+            q = build_attitude_q_v(self.orientation)
             self.attitude_quaternion = q
             q_con = q.conjugate()
             self.top_pointer_vector = build_v(q_con * build_q_v(Y_3D_VECTOR) * q)
