@@ -18,6 +18,7 @@ def main():
             print "Package Found: " + p
         except ImportError:
             print "ERROR! Package Not Found: ", p, "."
+            pip_message(p)
             return
     optional_packages = ["matplotlib", "panda3d"]
     for p in optional_packages:
