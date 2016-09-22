@@ -2,8 +2,7 @@ from motuus.movement.constants import *
 from motuus.movement.utils import not_none_nor_empty, build_attitude_q_v
 from motuus.sound.constants import *
 from pygame import mixer
-from motuus.visualize.graph2D import Graph2D
-from motuus.visualize.graph3D import Graph3D
+
 from motuus.visualize.screen import Screen
 
 import os
@@ -38,6 +37,7 @@ class BasePlayer(object):
         self.__g2D = None
 
         if graph2D:
+            from motuus.visualize.graph2D import Graph2D
             self.__g2D = Graph2D()
             self.__g2D.add_line('acceleration')
             self.__g2D.add_line('acc_avg')
@@ -46,6 +46,7 @@ class BasePlayer(object):
         self.__g3D = None
 
         if graph3D:
+            from motuus.visualize.graph3D import Graph3D
             self.__g3D = Graph3D()
 
         self.previous_movements = []
