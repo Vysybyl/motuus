@@ -32,8 +32,8 @@ def main():
 
 def pip_message(p):
     print "Install the missing package using the command:"
-    print '    pip install " + p + "' (on Windows)"
-    print '    sudo pip install " + p + "' (on Mac / Linux)"
+    print "    'pip install " + p + "' (on Windows)"
+    print "    'sudo pip install " + p + "' (on Mac / Linux)"
     print "Before that, you might need to upgrade pip using 'pip install --upgrade pip'"
 
 
