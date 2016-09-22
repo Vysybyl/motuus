@@ -1,5 +1,6 @@
 # External modules import
 from direct.showbase.ShowBase import ShowBase
+from panda3d.core import Quat
 from random import random as r
 from os import path
 
@@ -28,6 +29,7 @@ class Graph3D(ShowBase):
         Quat(cos(angl/2), sin(angl/2)*x, sin(angl/2)*y, sin(angl/2)*z) means that the main axes of the model is
         aligned to vector (x, y, z) and then the model is rotated of angle angl around this same axes.
         """
-        self.__p.setQuat(quat)
+        q = Quat(quat.a, quat.b, quat.c, quat.d)
+        self.__p.setQuat(q)
         self.taskMgr.step()
 

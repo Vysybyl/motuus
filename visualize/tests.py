@@ -1,7 +1,7 @@
 import unittest
 from time import sleep
 from math import pi, sin, cos
-from panda3d.core import Quat
+from panda3d.core import Quat as Panda3dQuat
 from random import random as rnd
 
 from motuus.visualize.graph2D import Graph2D
@@ -10,7 +10,9 @@ from motuus.movement.constants import *
 from motuus.movement.utils import build_q, cos_deg, sin_deg, build_attitude_q
 from motuus.movement.dummy_data import build_random_input
 from motuus.movement.movement import Movement as move
+from motuus.movement.quaternion import Quat
 from motuus.visualize.screen import Screen
+
 
 class MyTestCase(unittest.TestCase):
     def test_graph2D(self):
@@ -27,6 +29,60 @@ class MyTestCase(unittest.TestCase):
             g.update_line('testline', a, b)
             g.plot()
             sleep(0.05)
+
+    def test_compare_quat(self):
+        i = Panda3dQuat(0,1,0,0)
+        j = Panda3dQuat(0, 0, 1, 0)
+        k = Panda3dQuat(0, 0, 0, 1)
+        print "ij ", i * j
+        print " ik ", i * k
+        print " jk ", j * k
+        print " ji ", j*i
+        print "ki", k * i
+        print "kj", k * j
+        i = Quat(0,1,0,0)
+        j = Quat(0, 0, 1, 0)
+        k = Quat(0, 0, 0, 1)
+        print "ij ", i * j
+        print " ik ", i * k
+        print " jk ", j * k
+        print " ji ", j * i
+        print "ki", k * i
+        print "kj", k * j
+
+        x = 1
+        y = 2
+        w = 3
+        z = 4
+        pq1 = Panda3dQuat(x, y, w, z)
+        q1 = Quat(x, y, w, z)
+        self.assertTrue(are_equals(pq1, q1))
+        self.assertTrue(are_equals(pq1.conjugate(), q1.conjugate()))
+        x = 1
+        y = 0
+        w = 0
+        z = 0
+        pq2 = Panda3dQuat(x, y, w, z)
+        q2 = Quat(x, y, w, z)
+        self.assertTrue(are_equals(pq2, q2))
+        self.assertTrue( are_equals(pq1 * pq2, q1 * q2))
+        self.assertTrue( are_equals(pq2 * pq1, q2 * q1))
+        x = 0
+        y = 1
+        w = 0
+        z = 0
+        pq2 = Panda3dQuat(x, y, w, z)
+        q2 = Quat(x, y, w, z)
+        self.assertTrue( are_equals(pq1 * pq2, q1 * q2))
+        self.assertTrue( are_equals(pq2 * pq1, q2 * q1))
+        x = 0
+        y = 0
+        w = 1
+        z = 0
+        pq2 = Panda3dQuat(x, y, w, z)
+        q2 = Quat(x, y, w, z)
+        self.assertTrue( are_equals(pq1 * pq2, q1 * q2))
+        self.assertTrue( are_equals(pq2 * pq1, q2 * q1))
 
     def test_graph3D(self):
         g = Graph3D()
@@ -123,6 +179,8 @@ class MyTestCase(unittest.TestCase):
         pi4_x = Quat(cos(pi/8), sin(pi/8), 0, 0)
         pi4_y = Quat(cos(pi/8), 0, sin(pi/8), 0)
         pi4_z = Quat(cos(pi/8), 0, 0, sin(pi/8))
+        print x, " ", x * y
+
         self.assertTrue((pi4_z * pi4_z * x * pi4_z.conjugate() * pi4_z.conjugate()).almostEqual(-y))  # ??
         self.assertTrue((pi4_y * pi4_y * x * pi4_y.conjugate() * pi4_y.conjugate()).almostEqual(z))  # ??
 
@@ -197,6 +255,14 @@ class MyTestCase(unittest.TestCase):
         sleep(5)
         scr.display('black')
         sleep(5)
+
+
+def are_equals(panda3d_quat, quat):
+    print "Comparing ", panda3d_quat, " and ", quat
+    return (quat.a == panda3d_quat.getR() and
+            quat.b == panda3d_quat.getI() and
+            quat.c == panda3d_quat.getJ() and
+            quat.d == panda3d_quat.getK())
 
 
 if __name__ == '__main__':

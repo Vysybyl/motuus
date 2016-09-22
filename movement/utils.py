@@ -1,9 +1,10 @@
 # External modules import
 import numpy as np
-from panda3d.core import Quat
+
 
 # Project modules import
 from motuus.movement.constants import *
+from motuus.movement.quaternion import Quat
 
 """Includes utility functions used to process sensor data
 
@@ -122,6 +123,6 @@ def build_q(x, y, z):
 
 
 def build_v(q):
-    x = np.array([q.getI(), q.getJ(), q.getK()])
+    x = np.array([q.b, q.c, q.d])  # i, j, k
     x = x / np.sqrt(x.dot(x))
     return x

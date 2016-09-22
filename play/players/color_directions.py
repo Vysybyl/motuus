@@ -32,9 +32,11 @@ class Player(BasePlayer):
         super(Player, self).play(mov)
 
         if mov.top == EAST:
-            self.display_background('red')
+            self.display_background('white')
         elif mov.top == WEST:
             self.display_background('green')
+        elif mov.top == DOWN:
+            self.display_background('blue')
         else:
             self.display_background('black')
 

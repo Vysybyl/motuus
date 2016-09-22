@@ -1,6 +1,6 @@
 from flask import Flask, render_template, session
 from flask_socketio import SocketIO, emit
-from  importlib import import_module
+from importlib import import_module
 
 from motuus.movement.movement import Movement
 from motuus.config import *
@@ -43,5 +43,9 @@ def test_disconnect():
     print('Client disconnected')
 
 
-if __name__ == '__main__':
+def run():
     socketio.run(app, debug=False, host="0.0.0.0")
+
+
+if __name__ == '__main__':
+    run()

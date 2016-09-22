@@ -18,7 +18,7 @@ class Player(BasePlayer):
 
     def __init__(self, ):
         # Calling super class init (ignore the following line):
-        super(Player, self).__init__(count_steps=True, graph2D=False)
+        super(Player, self).__init__(count_steps=True)
         # Initialize here variables that might be used at every new event.
         self.count = 0
         s1 = Sound('dino-stomp-1.wav')
@@ -48,6 +48,7 @@ class Player(BasePlayer):
             self.count = self.steps
 
         # print mov.top
+
 
         if mov.top == UP:
             self.stays_up += 1
