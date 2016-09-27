@@ -92,7 +92,7 @@ IMPORTANT: connect to motuus web server at http://192.168.1.8:5000
 ```
 If you open the displayed address ('http://192.168.1.8:5000' in the example above) from a mobile device that's connected to the same network as your computer, you will see a page with two buttons, a number field and several sensor readings which change rapidly.
 
-If none of the values on the page is changing, you should try to open the page with another browser. Chrome and Mozilla should work fine. If the issue persists, you might be using a device that does not have any sensor.
+**If none of the values on the page is changing**, you should try to open the page with another browser. Chrome and Mozilla should work fine. If the issue persists, you might be using a device that does not have any sensor.
 
 To start transmitting the sensor data to Motuus, just press 'STREAM'. The button will turn green and your player will start to process the data.
 
