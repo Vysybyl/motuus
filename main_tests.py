@@ -1,9 +1,10 @@
 import unittest
 from time import sleep
 
-from movement.dummy_data import build_random_input
-from movement.movement import Movement
-from play.players.player import Player
+from motuus.movement.movement import Movement
+from motuus.movement.dummy_data import build_random_input
+
+Player =
 
 
 class MyTestCase(unittest.TestCase):
