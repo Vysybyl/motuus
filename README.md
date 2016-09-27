@@ -19,7 +19,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 If you see an error, please follow these [instructions](https://docs.python.org/2.7/using/windows.html#excursus-setting-environment-variables)
 
-Then, [download] (or [clone] if you know how to use git) and unzip the latest version of Motuus.
+Then, [download] !(or [clone] if you know how to use git) and unzip the latest version of Motuus.
 
 No further installation is needed. Any missing packages will be installed the first time you run the application.
 
