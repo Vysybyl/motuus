@@ -7,8 +7,7 @@ Motuus is an open-source python framework that allows you to easily link motion 
 Motuus is currently in it's initial stage: it is not stable nor tested and it is distributed as is.
 
 Motuus is distributed under [GPLv3] license.
-## Installation
-. Windows:
+## Install Motuus on Windows
 
 First, **install** [python 2.7] (the framework might work on python 3, but it's never been tested). Be shure that the PYTHON_PATH is correctly configured by opening a command-line (*cmd.exe*) and typing 'python'. You should see something like :
 ```sh
@@ -24,7 +23,8 @@ Then, [download] (or [clone] if you know how to use git) and unzip the latest ve
 
 No further installation is needed. Any missing packages will be installed the first time you run the application.
 
-. Mac / Linux:
+## Install Motuus on Mac / Linux:
+
 On most Mac computers and probably on every Linux ones, [python 2.7] is already installed (the framework might work on python 3, but it's never been tested). To confirm it, please open the *terminal* and type 'python'. You should see something like:
 ```sh
 jane@mylinux ~ $ python
