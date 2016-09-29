@@ -84,8 +84,8 @@ class BasePlayer(object):
             q = build_attitude_q_v(mov.orientation)
             self.__g3D.rotate(q)
 
-    def display_background(self, color_name):
-        self.__screen.display(color_name)
+    def display_background(self, color_name, fullscreen=False):
+        self.__screen.display(color_name, fullscreen)
 
     def __estimate_gravity(self):
         acc = []

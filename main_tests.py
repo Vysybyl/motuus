@@ -3,11 +3,11 @@ from time import sleep
 
 from motuus.movement.movement import Movement
 from motuus.movement.dummy_data import build_random_input
-
-Player =
+from motuus.web.home import Player
 
 
 class MyTestCase(unittest.TestCase):
+    
     def test_player(self):
         p = Player()
         mov = Movement(build_random_input())
@@ -27,7 +27,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_player_continuous(self):
         p = Player()
-        while True:
+        for i in range(10):
             mov = Movement(build_random_input())
             p.play(mov)
             sleep(0.5)

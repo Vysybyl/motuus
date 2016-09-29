@@ -39,6 +39,10 @@ def main():
             print " . WARNING! Package Not Found: ", p, "."
             pip_try_install(p, required=False)
     from motuus.web.home import run
+    from motuus.globals import ROOT_FOLDER, PLAYER_SCRIPT
+    print "The current root folder is:", ROOT_FOLDER
+    print "Motuus will try to execute '" + PLAYER_SCRIPT + ".py'"
+    print ""
     print "IMPORTANT: connect to motuus web server at http://" + get_ip_address() + ":5000"
     print ""
     print "Turn off motuus by selecting this window and pressing CTRL+C twice"

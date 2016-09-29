@@ -30,6 +30,11 @@ class MyTestCase(unittest.TestCase):
             g.plot()
             sleep(0.05)
 
+    def test_image(self):
+        s = Screen()
+        s.display('emule.png')
+        sleep(3)
+
     def test_compare_quat(self):
         i = Panda3dQuat(0,1,0,0)
         j = Panda3dQuat(0, 0, 1, 0)

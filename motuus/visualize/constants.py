@@ -2,6 +2,8 @@
 from motuus.globals import ROOT_FOLDER
 
 MODELS_FOLDER = ROOT_FOLDER + '/data/3d_models'
+IMAGE_FOLDER = ROOT_FOLDER + '/data/image'
+
 
 MODEL_NAME = 'smartphone'
 

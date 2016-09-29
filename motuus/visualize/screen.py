@@ -10,11 +10,19 @@ class Screen(object):
     def __init__(self):
         pygame.init()  # initialize pygame engine
         self.__screen = pygame.display.set_mode((640, 480))
+        self.__fullscreen = False
 
     def display(self, background='black', fullscreen=False):
-        if fullscreen:
+
+        if fullscreen and not self.__fullscreen:
             pygame.display.quit()
             self.__screen = pygame.display.set_mode((0, 0))
+            self.__fullscreen = True
+        if not fullscreen and self.__fullscreen:
+            pygame.display.quit()
+            self.__screen = pygame.display.set_mode((640, 480))
+            self.__fullscreen = False
+
         t = type(background)
         if t is str:
             if "." in background:
@@ -25,7 +33,7 @@ class Screen(object):
                 return
             else:
                 c = Color(background)
-        elif t is Color:
+        else:
             c = background
 
         self.__screen.fill(c)
