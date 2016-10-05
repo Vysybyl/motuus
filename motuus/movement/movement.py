@@ -42,6 +42,10 @@ class Movement(object):
         """A numpy.array unit vector storing the device y axis (bottom to top) orientation"""
         self.front_pointer_vector = None
         """A numpy.array unit vector storing the device z axis (back to front) orientation"""
+        self.gravity_pointer_vector = None
+        """A numpy.array unit vector storing the direction opposite to gravity force"""
+        self.accel_without_gravity_vector = None
+        """A numpy.array unit vector storing the acceleration data after gravity has been removed"""
 
         self.top = None
         self.bottom = None
@@ -59,16 +63,30 @@ class Movement(object):
             self.top_pointer_vector = build_v(q_con * build_q_v(Y_3D_VECTOR) * q)
             self.right_pointer_vector = build_v(q_con * build_q_v(X_3D_VECTOR) * q)
             self.front_pointer_vector = np.cross(self.right_pointer_vector, self.top_pointer_vector)
+            # No need to divide by the magnitude. These are all unit vectors
+            g_x = self.right_pointer_vector.dot(UP_3D_VECTOR)
+            g_y = self.top_pointer_vector.dot(UP_3D_VECTOR)
+            g_z = self.front_pointer_vector.dot(UP_3D_VECTOR)
+            self.gravity_pointer_vector = np.array([g_x, g_y, g_z])
             self.__build_pointers()
 
         self.acceleration = None
         """If present, stores the module of the acceleration (of the Movement.accelerometer)"""
+        self.acceleration_without_gravity = None
+        """If present, stores the module of the acceleration after gravity has been removed"""
 
         if not_none_nor_empty(self.accelerometer):
             # Calculates and stores the module (Euclidean norm) of the device acceleration. Please note that this
             # includes gravity.
             x = np.array(self.accelerometer)
             self.acceleration = np.sqrt(x.dot(x))
+            if not_none_nor_empty(self.gravity_pointer_vector):
+                y = x - (9.80665 * self.gravity_pointer_vector)
+                # 9.80665 is gravity on Earth according to wikipedia. The value may actually
+                # change and the accelerometer may be uncalibrated
+                self.accel_without_gravity_vector = y
+                self.acceleration_without_gravity = np.sqrt(y.dot(y))
+
 
         self.speed = None
         """If present, stores the module of the current speed"""

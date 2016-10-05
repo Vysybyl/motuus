@@ -18,7 +18,6 @@ class Player(BasePlayer):
         # Calling super class init (ignore the following line):
         super(Player, self).__init__()
         # Initialize here variables that might be used at every new event.
-        self.ding = Sound('ding_1.wav')
         self.gun = Sound('gunshot.wav')
         self.bell = Sound('Cowbell-1.wav')
 
@@ -34,32 +33,14 @@ class Player(BasePlayer):
         # Calling super class play (ignore the following line):
         super(Player, self).play(mov)
 
-        # If the device top points up
-        if mov.top == UP:
+        # If the device records high acceleration
+        if mov.acceleration_without_gravity > 15.0:
             # You will hear a gunshot
+            print "FAST AS A BULLET! (Acceleration: " + str(mov.acceleration_without_gravity)+")"
             self.gun.play()
 
-        # If it points down
-        elif mov.top == DOWN:
-            # You will see hear a cowbell
-            # a new one at every data input, even if the previous one
-            # is still playing
-            self.bell.play(overlap=True)
-
-
-        # If it points elsewhere (north, east, south, west)
-        # and the relative vector exists
-        elif mov.top_pointer_vector is not None:
-            # You'll hear a ding (overlapping, lasting 0.600 seconds)
-            # which volume will be adjusted based on the north-south orientation.
-            # That is, you will hear max volume when pointing to north or south
-            # and zero volume when pointing to east or west
-
-            # (the volume has values between 0.0 and 1.0)
-            y_axis = abs(mov.top_pointer_vector[1])
-            self.ding.set_volume(y_axis)
-            self.ding.play(overlap=True, maxtime=600)
-
-
-
-
+        # If it records very low acceleration
+        if mov.acceleration_without_gravity < 0.5:
+            # You will hear a cowbell
+            print "STILL AS A SLEEPING COW! (Acceleration: " + str(mov.acceleration_without_gravity) + ")"
+            self.bell.play()

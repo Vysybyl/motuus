@@ -15,10 +15,13 @@
 # PLAYER_SCRIPT = 'display_sample'
 
 # Using sounds
-PLAYER_SCRIPT = 'sound_sample'
+# PLAYER_SCRIPT = 'sound_sample'
 
 # Show you all the possible information that you can get from the device
-# PLAYER_SCRIPT = 'overview'
+PLAYER_SCRIPT = 'overview'
+
+# A little sample on how to use acceleration without gravity
+# PLAYER_SCRIPT = 'real_acceleration_sample'
 
 # Others...
 

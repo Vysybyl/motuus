@@ -54,10 +54,14 @@ class Player(BasePlayer):
         lines.append("TOP POINTER VECTOR:\t\t\t" + str(mov.top_pointer_vector))
         lines.append("FRONT POINTER VECTOR:\t\t\t" + str(mov.front_pointer_vector))
         lines.append("RIGHT POINTER VECTOR:\t\t\t" + str(mov.right_pointer_vector))
+        lines.append("GRAVITY POINTER VECTOR:\t\t\t" + str(mov.gravity_pointer_vector))
 
         # Acceleration
-        lines.append(" === DERIVATED DATA ===")
+        lines.append(" === DERIVED DATA ===")
         lines.append("ACCELERATION:\t\t\t" + str(mov.acceleration))
+        lines.append("ACCELERATION WITHOUT GRAVITY VECTOR:\t\t\t" + str(mov.accel_without_gravity_vector))
+        lines.append("ACCELERATION WITHOUT GRAVITY:\t\t\t" + str(mov.acceleration_without_gravity))
+
 
         # BasePlayer properties
         lines.append(" === PROCESSED INFORMATION ===")

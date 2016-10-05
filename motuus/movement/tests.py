@@ -16,6 +16,10 @@ class MyTestCase(unittest.TestCase):
         m = move(build_random_input())
         assert m.top == opposite(m.bottom)
 
+    def test_gravity(self):
+        m = move(build_random_input())
+        assert m.linear_acceleration
+
 
 
 if __name__ == '__main__':

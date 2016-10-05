@@ -1,11 +1,7 @@
 from motuus.movement.constants import *
 from motuus.movement.utils import not_none_nor_empty, build_attitude_q_v
-from motuus.sound.constants import *
-from pygame import mixer
-
 from motuus.visualize.screen import Screen
-
-import os
+from motuus.sound.sound import Sound
 
 MAX_PREVIOUS_MOVEMENTS = 100
 
@@ -73,7 +69,7 @@ class BasePlayer(object):
                 self.__gravity = self.__estimate_gravity()
                 self.__north = self.__adjust_north()
                 self.__calibrate = False
-                self.play_sound('66136__theta4__ding30603-spedup.wav')
+                Sound('ding_1.wav').play()
 
         # print str(mov.raw_data)
 

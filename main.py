@@ -1,15 +1,15 @@
 from os.path import dirname, basename, isfile, abspath
 import site
 import imp
-import socket
-import fcntl
-import struct
+
+version = "0.3.0 (Sleeping Cow)"
 
 def main():
     root_dir = dirname(abspath(__file__))
     root_dir = dirname(root_dir)
     site.addsitedir(root_dir)
     print "You are about to launch motuus..."
+    print "Current version: " + version
     print ""
     print "The following python packages are needed for the program to run:"
     packages = ["numpy", "pygame", "flask", "flask_socketio", "eventlet"]
