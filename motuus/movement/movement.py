@@ -74,6 +74,9 @@ class Movement(object):
         """If present, stores the module of the acceleration (of the Movement.accelerometer)"""
         self.acceleration_without_gravity = None
         """If present, stores the module of the acceleration after gravity has been removed"""
+        self.accel_without_gravity_direction = None
+        """If present, stores the approximate direction (north, south, up, down, east or west)
+         of the acceleration after gravity has been removed"""
 
         if not_none_nor_empty(self.accelerometer):
             # Calculates and stores the module (Euclidean norm) of the device acceleration. Please note that this
@@ -86,6 +89,7 @@ class Movement(object):
                 # change and the accelerometer may be uncalibrated
                 self.accel_without_gravity_vector = y
                 self.acceleration_without_gravity = np.sqrt(y.dot(y))
+                self.accel_without_gravity_direction = convert_vector_to_direction(self.accel_without_gravity_vector)
 
 
         self.speed = None
