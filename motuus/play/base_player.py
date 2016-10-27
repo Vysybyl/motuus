@@ -76,9 +76,8 @@ class BasePlayer(object):
         if self.__count_steps and mov.acceleration is not None:
             self.__count_step(mov)
 
-        if self.__g3D and not_none_nor_empty(mov.orientation):
-            q = build_attitude_q_v(mov.orientation)
-            self.__g3D.rotate(q)
+        if self.__g3D and not_none_nor_empty(mov.attitude_quaternion):
+            self.__g3D.rotate(mov.attitude_quaternion)
 
     def display_background(self, color_name, fullscreen=False):
         self.__screen.display(color_name, fullscreen)

@@ -39,14 +39,14 @@ class Player(BasePlayer):
         strength = mov.acceleration_without_gravity
         # If the device records some acceleration
         if strength > 5.0:
-            print mov.accel_without_gravity_direction, str(strength)
+            print mov.top, str(strength)
 
             # and it's pointing towards north
             if mov.top == NORTH:
-                self.kick.play(overlap=False)
+                self.kick.play(overlap=False, maxtime=200)
             # else, if pointing towards east
             elif mov.top == EAST:
-                self.ding.play(overlap=False)
+                self.ding.play(overlap=False, maxtime=200)
 
 
 

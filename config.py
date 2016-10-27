@@ -27,11 +27,11 @@
 # A little sample on how to use acceleration without gravity direction
 # PLAYER_SCRIPT = 'ghost_drumset'
 # ... a better version...
-# PLAYER_SCRIPT = 'ghost_drumset_corrected'
+PLAYER_SCRIPT = 'ghost_drumset_corrected'
 
 # Others...
 
-PLAYER_SCRIPT = 'dinowalk'
+# PLAYER_SCRIPT = 'dinowalk'
 # PLAYER_SCRIPT = 'sound'
 # PLAYER_SCRIPT = 'color_directions'
 # PLAYER_SCRIPT = 'color_directions_modified'

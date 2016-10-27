@@ -66,6 +66,8 @@ def not_none_nor_empty(vec):
     """
     if vec is None:
         return False
+    if type(vec) is Quat:
+        return True
     if len(vec) == 0:
         return False
     for i in vec:

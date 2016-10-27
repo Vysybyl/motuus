@@ -47,6 +47,8 @@ class Movement(object):
         self.accel_without_gravity_vector = None
         """A numpy.array unit vector storing the acceleration data after gravity has been removed"""
 
+        self.attitude_quaternion = None
+
         self.top = None
         self.bottom = None
         self.left = None

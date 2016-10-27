@@ -13,8 +13,13 @@ class MyTestCase(unittest.TestCase):
         assert m.bottom == SOUTH
 
     def test_fake_input(self):
-        m = move(build_random_input())
+        rand_inp = build_random_input()
+        m = move(rand_inp)
         assert m.top == opposite(m.bottom)
+        t = rand_inp[ORIENTATION]
+        t = np.array([np.sin( t[0]), t[1], t[2]])
+        t = t +1
+
 
     def test_gravity(self):
         m = move(build_random_input())
