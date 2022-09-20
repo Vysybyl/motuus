@@ -9,7 +9,7 @@ Motuus is currently in it's initial stage: it is not stable nor tested and it is
 Motuus is distributed under [GPLv3] license.
 ## Install Motuus on Windows
 
-First, **install** [python 2.7] (the framework might work on python 3, but it's never been tested). Be shure that the PYTHON_PATH is correctly configured by opening a command-line (*cmd.exe*) and typing 'python'. You should see something like :
+First, **install** [python 2.7] (the framework might work on python 3, but it's never been tested). Be sure that the PYTHON_PATH is correctly configured by opening a command-line (*cmd.exe*) and typing 'python'. You should see something like :
 ```sh
 c:\Users\Admin\Documents> python
 Python 2.7.6 (default, Jun 22 2015, 17:58:13)
